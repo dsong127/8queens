@@ -1,17 +1,19 @@
-import time
+from timeit import default_timer as timer
 import random
 import numpy as np
 from matplotlib import pyplot as plt
+import time
 
-N = 100
-mutation_pct = 0.01
-iteration = 5000
+N = 300
+mutation_pct = 0.1
+iteration = 1000
 fitness_avg_data = []
 global generations
 
 class Individual(object):
     def __init__(self):
-        self.state= np.array(random.sample(range(8), 8))
+        #self.state= np.array(random.sample(range(8), 8))
+        self.state = np.random.choice(8, 8, replace=True)
         self.fitness = None
         self.selection_prob = None
 
@@ -77,18 +79,14 @@ def evaluate_fitness(individual_state):
     # Check horizontal
     # Same row means queens are attacking in horizontal direction
     attacks_horizontal += abs(len(individual_state) - len(np.unique(individual_state)))
-
     # For each queen in coloumn i
     for i in range(len(individual_state)):
-        #print('i: {}'.format(i))
         # Check against every other queen
         for j in range(len(individual_state)):
             if (i != j):
-         #       print('\tj: {}'.format(j))
                 delta_row = abs(individual_state[i] - individual_state[j])
                 delta_coloumn = abs(i - j)
                 if (delta_row == delta_coloumn):
-          #          print('its equal')
                     dagnal_attacks += 1
 
     total_attacks = (dagnal_attacks/2) + attacks_horizontal
@@ -115,17 +113,27 @@ def random_selection(population):
 
 def reproduce(parent1, parent2):
     cutoff = random.randint(1,7)
-    offspring = Individual()
-    offspring.set_state(np.concatenate([parent1.state[:cutoff], parent2.state[(cutoff):]]))
+    offspring1 = Individual()
+    offspring2 = Individual()
+    offspring1.set_state(np.concatenate([parent1.state[:cutoff], parent2.state[cutoff:]]))
+    offspring2.set_state(np.concatenate([parent2.state[:cutoff], parent1.state[cutoff:]]))
+
     # Mutate
     if random.random() < mutation_pct:
         # Random index
         i = random.randint(0,7)
         # Random value
-        offspring.state[i] = random.randint(0,7)
-    offspring.set_fitness(evaluate_fitness(offspring.state))
+        offspring1.state[i] = random.randint(0,7)
+    if random.random() < mutation_pct:
+        # Random index
+        i = random.randint(0, 7)
+        # Random value
+        offspring2.state[i] = random.randint(0, 7)
 
-    return offspring
+    offspring1.set_fitness(evaluate_fitness(offspring1.state))
+    offspring2.set_fitness(evaluate_fitness(offspring2.state))
+
+    return offspring1, offspring2
 
 def genetic_algorithm(iteration):
     stop = False
@@ -139,10 +147,11 @@ def genetic_algorithm(iteration):
         print('---------------------Generation {}-----------------------'.format(i+1))
         new_population = []
 
-        for _ in range(N):
+        for _ in range(int(N/2)):
             parent1, parent2 = random_selection(population.population)
-            offspring = reproduce(parent1, parent2)
-            new_population.append(offspring)
+            offspring1, offspring2 = reproduce(parent1, parent2)
+            new_population.append(offspring1)
+            new_population.append(offspring2)
 
         population.new_population(new_population)
         population.set_fitness_sum()
@@ -163,9 +172,17 @@ def genetic_algorithm(iteration):
     return solution, generations
 
 if __name__ == "__main__":
+    #gen_average = 0
+    #time_average = 0
+
+    start = timer()
     solution, generations = genetic_algorithm(iteration)
     print(solution)
     print('In generation {}'.format(generations))
+    #gen_average += generations
+    end = timer()
+    #time_average += (end-start)
+    print("Time taken: {} seconds".format(end-start))
 
     plt.figure(figsize=(10, 10))
     generation_data = range(generations)
@@ -175,9 +192,3 @@ if __name__ == "__main__":
     plt.ylabel("Fitness average")
     plt.savefig('plot.png', bbox_inches='tight')
     plt.show()
-
-    #print(evaluate_fitness([2, 1, 4, 3, 2, 1, 0, 2])) #11
-    #print(evaluate_fitness([1, 3, 6, 3, 7, 4, 4, 1])) #24
-    #print(evaluate_fitness([2, 1, 6, 4, 1, 3, 0, 0])) #23
-    p#rint(evaluate_fitness([1, 3, 3, 0, 4, 0, 1, 3])) #20
-
