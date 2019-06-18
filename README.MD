@@ -5,7 +5,7 @@ Change global variables N and mutation_pct to experiment with different populati
 
 ## Requirements
 
-* Python 3.x
+* Python 3.6
 * [Pipenv 2018.11.26](https://docs.pipenv.org/en/latest/) - For package management and virtual Python environment
 * [Numpy 1.16](https://www.numpy.org/) - For easy data array manipulation
 * [Matplotlib](https://matplotlib.org/) - For plots
@@ -14,7 +14,7 @@ Change global variables N and mutation_pct to experiment with different populati
 
 cd into cloned directory. Then:
 
-* `pip install` to install dependencies
+* `pipenv install` to install dependencies
 * `pipenv shell`
 * `python main.py`
 
