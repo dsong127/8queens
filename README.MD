@@ -15,7 +15,7 @@ Change global variables N and mutation_pct to experiment with different populati
 cd into cloned directory. Then:
 
 * `pip3 install pipenv`
-* `pipenv install` to install dependencies
+* `pipenv --python 3.7`
 * `pipenv shell`
 * `python main.py`
 

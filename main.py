@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 import time
 
 N = 300
-mutation_pct = 0.1
+mutation_pct = 0.3
 iteration = 1000
 fitness_avg_data = []
 global generations
