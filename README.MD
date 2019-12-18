@@ -6,7 +6,6 @@ Change global variables N and mutation_pct to experiment with different populati
 ## Requirements
 
 * Python 3.7
-* [Pipenv 2018.11.26](https://docs.pipenv.org/en/latest/) - For package management and virtual Python environment
 * [Numpy 1.16](https://www.numpy.org/) - For easy data array manipulation
 * [Matplotlib](https://matplotlib.org/) - For plots
 
