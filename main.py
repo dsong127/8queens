@@ -5,8 +5,8 @@ from matplotlib import pyplot as plt
 import time
 
 N = 300
-mutation_pct = 0.3
-iteration = 1000
+mutation_pct = 0.1
+iteration = 3000
 fitness_avg_data = []
 global generations
 
@@ -172,18 +172,18 @@ def genetic_algorithm(iteration):
     return solution, generations
 
 if __name__ == "__main__":
-    #gen_average = 0
-    #time_average = 0
-
     start = timer()
     solution, generations = genetic_algorithm(iteration)
-    print(solution)
-    print('In generation {}'.format(generations))
-    #gen_average += generations
-    end = timer()
-    #time_average += (end-start)
-    print("Time taken: {} seconds".format(end-start))
 
+    if solution is None:
+        print('No solution found')
+    else:
+        print(solution)
+        print('In generation {}'.format(generations))
+
+    end = timer()
+    print("Time taken: {} seconds".format(end-start))
+    
     plt.figure(figsize=(10, 10))
     generation_data = range(generations)
     plt.title('Fitness average vs Generation')
