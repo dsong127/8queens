@@ -1,6 +1,6 @@
 # 8 Queens - Genetic Algorithm Solution
 
-Solving the 8 queens puzzle using genetic algorithm. The goal of the program is to place 8 queens on a board in such a way that no queens are attacking each other.  
+Solving the 8 queens puzzle using [Genetic Algorithm](https://en.wikipedia.org/wiki/Genetic_algorithm). The goal of the program is to place 8 queens on a board in such a way that no queens are attacking each other.  
 
 Change global variables N and mutation_pct to experiment with different population number and mutation percentage.
 
